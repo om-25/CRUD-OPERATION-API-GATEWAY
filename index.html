@@ -1,0 +1,287 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>DynamoDB Operations</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>DynamoDB Operations</h1>
+
+    <h2>Upload Data to DynamoDB</h2>
+    <form id="uploadForm">
+        <label for="uploadId">ID:</label><br>
+        <input type="text" id="uploadId" name="uploadId"><br>
+        <label for="uploadName">Name:</label><br>
+        <input type="text" id="uploadName" name="uploadName"><br>
+        <label for="uploadEmail">Email:</label><br>
+        <input type="text" id="uploadEmail" name="uploadEmail"><br><br>
+        <input type="button" value="Upload Data" onclick="uploadData()">
+    </form>
+
+    <p id="uploadResponse"></p>
+
+    <h2>Fetch Data from DynamoDB</h2>
+    <form id="fetchForm">
+        <label for="fetchId">ID:</label><br>
+        <input type="text" id="fetchId" name="fetchId"><br><br>
+        <input type="button" value="Fetch Data" onclick="fetchData()">
+    </form>
+
+    <p id="fetchResponse"></p>
+
+    <table id="dataTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        async function uploadData() {
+            const id = document.getElementById('uploadId').value;
+            const name = document.getElementById('uploadName').value;
+            const email = document.getElementById('uploadEmail').value;
+
+            const data = {
+                id: id,
+                name: name,
+                email: email
+            };
+
+            const responseElement = document.getElementById('uploadResponse');
+
+            try {
+                const response = await fetch('https://27pkz0oh1g.execute-api.us-east-1.amazonaws.com/test-dev', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: data })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    responseElement.innerText = responseData.body;
+                } else {
+                    const errorData = await response.json();
+                    responseElement.innerText = `Error: ${errorData.body}`;
+                }
+            } catch (error) {
+                responseElement.innerText = `Error: ${error.message}`;
+            }
+        }
+
+        async function fetchData() {
+            const id = document.getElementById('fetchId').value;
+            const responseElement = document.getElementById('fetchResponse');
+            const dataTable = document.getElementById('dataTable');
+            const dataTableBody = dataTable.querySelector('tbody');
+
+            try {
+                const response = await fetch('https://27pkz0oh1g.execute-api.us-east-1.amazonaws.com/test-dev', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+
+                    // Clear any previous data
+                    dataTableBody.innerHTML = '';
+
+                    // Insert the new data into the table
+                    const row = dataTableBody.insertRow();
+                    const cellId = row.insertCell(0);
+                    const cellName = row.insertCell(1);
+                    const cellEmail = row.insertCell(2);
+
+                    cellId.textContent = responseData.id;
+                    cellName.textContent = responseData.name;
+                    cellEmail.textContent = responseData.email;
+
+                    // Show the table
+                    dataTable.style.display = 'table';
+                    responseElement.innerText = 'Data fetched successfully!';
+                } else {
+                    const errorData = await response.json();
+                    responseElement.innerText = `Error: ${errorData.body}`;
+                    dataTable.style.display = 'none';
+                }
+            } catch (error) {
+                responseElement.innerText = `Error: ${error.message}`;
+                dataTable.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+ -->
+
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data from DynamoDB</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Data to DynamoDB</h1>
+    <form id="uploadForm">
+        <label for="uploadId">ID:</label><br>
+        <input type="text" id="uploadId" name="id"><br>
+        <label for="uploadName">Name:</label><br>
+        <input type="text" id="uploadName" name="name"><br>
+        <label for="uploadEmail">Email:</label><br>
+        <input type="text" id="uploadEmail" name="email"><br><br>
+        <input type="button" value="Submit" onclick="uploadData()">
+    </form>
+
+    <p id="uploadResponse"></p>
+
+    <script>
+        async function uploadData() {
+            const id = document.getElementById('uploadId').value;
+            const name = document.getElementById('uploadName').value;
+            const email = document.getElementById('uploadEmail').value;
+
+            const data = {
+                id: id,
+                name: name,
+                email: email
+            };
+
+            const responseElement = document.getElementById('uploadResponse');
+
+            try {
+                const response = await fetch('https://27pkz0oh1g.execute-api.us-east-1.amazonaws.com/test-dev/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: data })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    responseElement.innerText = responseData.body;
+                } else {
+                    const errorData = await response.json();
+                    responseElement.innerText = `Error: ${errorData.body}`;
+                }
+            } catch (error) {
+                responseElement.innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+
+    <h1>Fetch Data from DynamoDB</h1>
+    <form id="fetchForm">
+        <label for="fetchId">ID:</label><br>
+        <input type="text" id="fetchId" name="id"><br><br>
+        <button type="button" onclick="getData()">Fetch Data</button>
+    </form>
+
+    <p id="fetchResponse"></p>
+
+    <table id="dataTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        function getData() {
+            var id = document.getElementById("fetchId").value;
+
+            fetch(`https://27pkz0oh1g.execute-api.us-east-1.amazonaws.com/test-dev/get_data`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.statusCode === 404) {
+                    document.getElementById("fetchResponse").innerText = data.body.error;
+                    document.getElementById("dataTable").style.display = "none";
+                } else if (data.statusCode === 500) {
+                    document.getElementById("fetchResponse").innerText = data.body.error;
+                    document.getElementById("dataTable").style.display = "none";
+                } else if (data.statusCode === 200) {
+                    var itemData = JSON.parse(data.body); // Parse the JSON string to object
+
+                    var tableBody = document.querySelector("#dataTable tbody");
+                    tableBody.innerHTML = ""; // Clear previous data
+
+                    var row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${itemData.id || ''}</td>
+                        <td>${itemData.name || ''}</td>
+                        <td>${itemData.email || ''}</td>
+                    `;
+                    tableBody.appendChild(row);
+
+                    document.getElementById("dataTable").style.display = "table";
+                    document.getElementById("fetchResponse").innerText = 'Data fetched successfully!';
+                } else {
+                    document.getElementById("fetchResponse").innerText = 'Unknown error occurred';
+                    document.getElementById("dataTable").style.display = "none";
+                }
+            })
+            .catch(error => {
+                document.getElementById("fetchResponse").innerText = 'Error: ' + error;
+                document.getElementById("dataTable").style.display = "none";
+            });
+        }
+    </script>
+</body>
+</html>
